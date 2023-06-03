@@ -1,11 +1,12 @@
 import mongoose from 'mongoose';
-import config from './config/index';
 import app from './app';
+import config from './config/index';
+import { infoLogger } from './shared/logger';
 
 async function bootstrap() {
   try {
     await mongoose.connect(config.database_url as string);
-    console.log(`🛢 Database is connected successfully`);
+    infoLogger.info(`🛢 Database is connected successfully`);
 
     const server = app.listen(config.port, () => {
       const host = server.address();
@@ -15,12 +16,12 @@ async function bootstrap() {
         address = host.address === '::' ? 'localhost' : host.address;
       }
 
-      console.log(
+      infoLogger.info(
         `🌐 Server is running at: ${protocol}://${address}:${config.port}`
       );
     });
   } catch (err) {
-    console.error('Failed to connect to the database', err);
+    infoLogger.info('Failed to connect to the database', err);
   }
 }
 

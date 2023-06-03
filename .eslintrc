@@ -18,7 +18,7 @@
     "no-undef": "error",
     "no-unused-expressions": "error",
     "no-unreachable": "error",
-    "consistent-type-definitions": [
+    "@typescript-eslint/consistent-type-definitions": [
       "error",
       "type"
     ]
@@ -26,6 +26,7 @@
 
   "env": {
     "browser": true,
+    "node": true,
     "es2021": true
   }
 }
