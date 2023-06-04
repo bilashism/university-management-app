@@ -1,24 +1,37 @@
 import path from 'path';
-import winston from 'winston';
+import { createLogger, format, transports } from 'winston';
+const { combine, timestamp, label, prettyPrint, printf } = format;
 
-const infoLogger = winston.createLogger({
+const logFormat = printf(({ level, message, label, timestamp }) => {
+  const date = new Date(timestamp);
+  const hours = date.getHours();
+  const minutes = date.getMinutes();
+  const seconds = date.getSeconds();
+  return `${date.toDateString()} ${hours}:${minutes}:${seconds} [${label}] ${level}: ${message}`;
+});
+
+const logFormatter = (lbl: string) =>
+  combine(label({ label: lbl }), timestamp(), logFormat);
+
+const infoLogger = createLogger({
   level: 'info',
-  format: winston.format.json(),
+  format: logFormatter('UMA'),
+
   transports: [
-    new winston.transports.Console(),
-    new winston.transports.File({
+    new transports.Console(),
+    new transports.File({
       filename: path.join(process.cwd(), 'logs/winston/info.log'),
       level: 'info',
     }),
   ],
 });
 
-const errorLogger = winston.createLogger({
+const errorLogger = createLogger({
   level: 'error',
-  format: winston.format.json(),
+  format: logFormatter('UMA'),
   transports: [
-    new winston.transports.Console(),
-    new winston.transports.File({
+    new transports.Console(),
+    new transports.File({
       filename: path.join(process.cwd(), 'logs/winston/error.log'),
       level: 'error',
     }),
@@ -26,3 +39,4 @@ const errorLogger = winston.createLogger({
 });
 
 export { infoLogger, errorLogger };
+
