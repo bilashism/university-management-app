@@ -13,7 +13,7 @@ export const globalErrorHandler = (
   // res.status(400).json({ err });
   let statusCode = 500;
   let message = 'Something went wrong!';
-  let errorMesages: ErrorMessage[] = [];
+  let errorMessages: ErrorMessage[] = [];
 
   if (err?.name === 'ValidationError') {
     const simplifiedError = handleValidationError(err);
