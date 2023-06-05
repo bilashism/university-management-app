@@ -2,7 +2,7 @@ import { Model, Schema, model } from 'mongoose';
 import { IUser } from './users.interface';
 
 type UserModel = Model<IUser, object>;
-
+// demo
 const userSchema = new Schema<IUser>(
   {
     id: {
