@@ -6,7 +6,7 @@ import ApiError from './errors/ApiError';
 const app: Application = express();
 
 app.use(cors());
-
+// con uhuof
 //parser
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
