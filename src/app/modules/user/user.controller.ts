@@ -1,11 +1,7 @@
-import { Request, Response, NextFunction } from 'express';
-import usersService from './users.service';
+import { Request, Response, NextFunction, RequestHandler } from 'express';
+import usersService from './user.service';
 
-export const createUser = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+export const createUser: RequestHandler = async (req, res, next) => {
   try {
     const { user } = req.body;
     const result = await usersService.createUser(user);
@@ -16,9 +12,9 @@ export const createUser = async (
     });
   } catch (err) {
     // temporary fix
-    res.status(400).json({
-      err,
-    });
+    // res.status(400).json({
+    //   err,
+    // });
     next(err);
   }
 };
