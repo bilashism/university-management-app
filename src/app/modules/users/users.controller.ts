@@ -15,6 +15,10 @@ export const createUser = async (
       data: result,
     });
   } catch (err) {
+    // temporary fix
+    res.status(400).json({
+      err,
+    });
     next(err);
   }
 };
