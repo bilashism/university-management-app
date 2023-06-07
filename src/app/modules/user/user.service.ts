@@ -1,9 +1,17 @@
 import config from '../../../config/index';
+import ApiError from '../../../errors/ApiError';
 import { IUser } from './user.interface';
 import { User } from './user.model';
 import { generateUserId } from './user.utils';
 
-export const createUser = async (user: IUser): Promise<IUser | null> => {
+/**
+ * This function creates a new user with an auto-generated ID and default password, and returns the
+ * created user object.
+ * @param {IUser} user - The `user` parameter is an object of type `IUser` which contains information
+ * about the user being created.
+ * @returns The function `createUser` returns a Promise that resolves to an `IUser` object or `null`.
+ */
+const createUser = async (user: IUser): Promise<IUser | null> => {
   // auto generated incremental id
   const id = await generateUserId();
   user.id = id;
@@ -15,11 +23,11 @@ export const createUser = async (user: IUser): Promise<IUser | null> => {
   const createdUser = await User.create(user);
 
   if (!createUser) {
-    throw new Error('Failed to create user!');
+    throw new ApiError(500, 'Failed to create user!');
   }
   return createdUser;
 };
 
-export default {
+export const userService = {
   createUser,
 };

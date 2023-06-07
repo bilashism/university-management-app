@@ -1,13 +1,13 @@
 import cors from 'cors';
 import express, { Application } from 'express';
 import { globalErrorHandler } from './app/middlewares/globalErrorHandler';
-import usersRouter from './app/modules/user/user.route';
+import { userRouter } from './app/modules/user/user.route';
+import config from './config';
 // import ApiError from './errors/ApiError';
 const app: Application = express();
 
+// standard middleware
 app.use(cors());
-// con uhuof
-//parser
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -18,10 +18,9 @@ app.use(express.urlencoded({ extended: true }));
 //   // next("I'm an 'express' error!");
 // });
 
-app.use('/api/v1/users', usersRouter);
+app.use(`${config.API_PREFIX}/user`, userRouter);
 
-// global error handler
-// globalErrorHandler must come after all routes middleware
+// global error handler (must come after all routes middleware)
 app.use(globalErrorHandler);
 
 export default app;
