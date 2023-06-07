@@ -1,0 +1,1 @@
+# University Management Application in Typescript, Mongoose, Express  
