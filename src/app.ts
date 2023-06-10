@@ -12,11 +12,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Application routes
-app.get('/', () => {
-  // res.send('Working Successfully');
-  throw new Error('ddg rejection');
-  // next("I'm an 'express' error!");
-});
+// app.get('/', () => {
+//   // res.send('Working Successfully');
+//   throw new Error('ddg rejection');
+//   // next("I'm an 'express' error!");
+// });
 
 app.use(`${config.API_PREFIX}/user`, userRouter);
 

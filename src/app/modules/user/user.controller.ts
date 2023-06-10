@@ -1,6 +1,6 @@
 import { RequestHandler } from 'express';
 import { userService } from './user.service';
-
+// import { z } from 'zod';
 /**
  * This function creates a user and returns a success message with the user data.
  * @param req - req stands for request and it is an object that contains information about the HTTP
