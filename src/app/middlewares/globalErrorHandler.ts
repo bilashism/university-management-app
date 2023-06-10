@@ -1,8 +1,10 @@
+/* eslint-disable no-console */
 import { ErrorRequestHandler } from 'express';
 import config from '../../config';
+import ApiError from '../../errors/ApiError';
 import { handleValidationError } from '../../errors/handleValidationError';
 import { ErrorMessage } from '../../interfaces/error';
-import ApiError from '../../errors/ApiError';
+import { errorLogger } from '../../shared/logger';
 
 export const globalErrorHandler: ErrorRequestHandler = (
   error,
@@ -11,6 +13,11 @@ export const globalErrorHandler: ErrorRequestHandler = (
   next
 ) => {
   // res.status(400).json({ err });
+  if (config.env === 'development') {
+    console.log('💔 global error handler ~ ', error);
+  } else {
+    errorLogger.error('💔 global error handler ~ ', error);
+  }
   let statusCode = 500;
   let message = 'Something went wrong!';
   let errorMessages: ErrorMessage[] = [];
