@@ -1,3 +1,4 @@
+import { academicSemesterRouter } from './app/modules/academicSemester/academicSemester.route';
 import cors from 'cors';
 import express, { Application } from 'express';
 import { globalErrorHandler } from './app/middlewares/globalErrorHandler';
@@ -19,6 +20,7 @@ app.use(express.urlencoded({ extended: true }));
 // });
 
 app.use(`${config.API_PREFIX}/user`, userRouter);
+app.use(`${config.API_PREFIX}/academic-semester`, academicSemesterRouter);
 
 // global error handler (must come after all routes middleware)
 app.use(globalErrorHandler);
