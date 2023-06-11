@@ -9,3 +9,5 @@ academicSemesterRouter.post(
   validateRequest(AcademicSemesterValidation.createAcademicSemesterZodSchema),
   academicSemesterController.createAcademicSemester
 );
+
+academicSemesterRouter.get('/', academicSemesterController.getAllSemesters);
