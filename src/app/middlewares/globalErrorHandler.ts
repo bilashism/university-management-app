@@ -8,6 +8,13 @@ import { errorLogger } from '../../shared/logger';
 import { ZodError } from 'zod';
 import { handleZodError } from '../../errors/handleZodError';
 
+export type IGlobalErrorResponse = {
+  success: false;
+  message: string;
+  errorMessages: ErrorMessage[];
+  stack?: string | undefined;
+};
+
 export const globalErrorHandler: ErrorRequestHandler = (
   error,
   req,
@@ -43,12 +50,14 @@ export const globalErrorHandler: ErrorRequestHandler = (
     errorMessages = message ? [{ path: '', message }] : [];
   }
 
-  res.status(statusCode).json({
+  const responseData: IGlobalErrorResponse = {
     success: false,
     message,
     errorMessages,
     stack: config.env !== 'production' ? error?.stack : undefined,
-  });
+  };
+
+  res.status(statusCode).json(responseData);
 
   next();
 };

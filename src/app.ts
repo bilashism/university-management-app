@@ -1,6 +1,10 @@
 import cors from 'cors';
-import express, { Application } from 'express';
-import { globalErrorHandler } from './app/middlewares/globalErrorHandler';
+import express, { Application, NextFunction, Request, Response } from 'express';
+import httpStatus from 'http-status';
+import {
+  IGlobalErrorResponse,
+  globalErrorHandler,
+} from './app/middlewares/globalErrorHandler';
 import { appRouter } from './app/routes';
 import config from './config';
 const app: Application = express();
@@ -15,5 +19,22 @@ app.use(`${config.API_PREFIX}`, appRouter);
 
 // global error handler (must come after all routes middleware)
 app.use(globalErrorHandler);
+
+// not found routes handler
+app.use((req: Request, res: Response, next: NextFunction) => {
+  const notFoundResponseData: IGlobalErrorResponse = {
+    success: false,
+    message: 'The requested route was not found',
+    errorMessages: [
+      {
+        path: req.originalUrl,
+        message: 'The requested route does not exist',
+      },
+    ],
+    stack: undefined,
+  };
+  res.status(httpStatus.NOT_FOUND).json(notFoundResponseData);
+  next();
+});
 
 export default app;
