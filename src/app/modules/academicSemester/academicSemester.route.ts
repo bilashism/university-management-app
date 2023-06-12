@@ -10,4 +10,8 @@ academicSemesterRouter.post(
   academicSemesterController.createAcademicSemester
 );
 
+academicSemesterRouter.get(
+  '/:id',
+  academicSemesterController.getSingleSemester
+);
 academicSemesterRouter.get('/', academicSemesterController.getAllSemesters);
