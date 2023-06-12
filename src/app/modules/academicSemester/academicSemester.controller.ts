@@ -4,8 +4,9 @@ import { PAGINATION_FIELDS } from '../../../constants/pagination';
 import { catchAsync } from '../../../shared/catchAsync';
 import { pick } from '../../../shared/pick';
 import { sendResponse } from '../../../shared/sendResponse';
-import { academicSemesterService } from './academicSemester.service';
 import { IAcademicSemester } from './academicSemester.interface';
+import { academicSemesterService } from './academicSemester.service';
+import { academicSemesterFilterableFields } from './academicSemester.constant';
 
 const createAcademicSemester = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
@@ -27,8 +28,10 @@ const createAcademicSemester = catchAsync(
 
 const getAllSemesters = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
+    const filters = pick(req.query, academicSemesterFilterableFields);
     const paginationOptions = pick(req.query, PAGINATION_FIELDS);
     const result = await academicSemesterService.getAllSemesters(
+      filters,
       paginationOptions
     );
     sendResponse<IAcademicSemester[]>(res, {
