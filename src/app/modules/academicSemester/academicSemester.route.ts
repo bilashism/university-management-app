@@ -14,4 +14,9 @@ academicSemesterRouter.get(
   '/:id',
   academicSemesterController.getSingleSemester
 );
+academicSemesterRouter.patch(
+  '/:id',
+  validateRequest(AcademicSemesterValidation.updateAcademicSemesterZodSchema),
+  academicSemesterController.updateSemester
+);
 academicSemesterRouter.get('/', academicSemesterController.getAllSemesters);

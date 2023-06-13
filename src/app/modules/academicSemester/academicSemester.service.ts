@@ -88,8 +88,26 @@ const getSingleSemester = async (
   return result;
 };
 
+const updateSemester = async (
+  id: string,
+  payload: Partial<IAcademicSemester>
+): Promise<IAcademicSemester | null> => {
+  if (
+    payload.title &&
+    payload.code &&
+    academicSemesterTitleCodeMapper[payload.title] !== payload.code
+  ) {
+    throw new ApiError(httpStatus.BAD_REQUEST, 'Title and code mismatch');
+  }
+  const result = await AcademicSemester.findOneAndUpdate({ _id: id }, payload, {
+    new: true,
+  });
+  return result;
+};
+
 export const academicSemesterService = {
   createAcademicSemester,
   getAllSemesters,
   getSingleSemester,
+  updateSemester,
 };

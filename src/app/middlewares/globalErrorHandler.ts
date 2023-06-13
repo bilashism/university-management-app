@@ -65,5 +65,5 @@ export const globalErrorHandler: ErrorRequestHandler = (
 
   res.status(statusCode).json(responseData);
 
-  next();
+  // next();
 };

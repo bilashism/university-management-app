@@ -22,7 +22,7 @@ const createAcademicSemester = catchAsync(
       meta: null,
       data: result,
     });
-    next();
+    // next();
   }
 );
 
@@ -41,7 +41,7 @@ const getAllSemesters = catchAsync(
       data: result.data,
       meta: result.meta,
     });
-    next();
+    // next();
   }
 );
 
@@ -55,7 +55,25 @@ const getSingleSemester = catchAsync(
       message: 'Semester retrieved successfully',
       data: result,
     });
-    next();
+    // next();
+  }
+);
+
+const updateSemester = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const id = req.params.id;
+    const updatedData = req.body;
+    const result = await academicSemesterService.updateSemester(
+      id,
+      updatedData
+    );
+    sendResponse<IAcademicSemester>(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: 'Semester updated successfully',
+      data: result,
+    });
+    // next();
   }
 );
 
@@ -63,4 +81,5 @@ export const academicSemesterController = {
   createAcademicSemester,
   getAllSemesters,
   getSingleSemester,
+  updateSemester,
 };

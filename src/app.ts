@@ -34,7 +34,7 @@ app.use((req: Request, res: Response, next: NextFunction) => {
     stack: undefined,
   };
   res.status(httpStatus.NOT_FOUND).json(notFoundResponseData);
-  next();
+  // next();
 });
 
 export default app;
