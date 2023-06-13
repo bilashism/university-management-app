@@ -1,13 +1,13 @@
 /* eslint-disable no-console */
 import { ErrorRequestHandler } from 'express';
+import { ZodError } from 'zod';
 import config from '../../config';
 import ApiError from '../../errors/ApiError';
+import { handleCastError } from '../../errors/handleCastError';
 import { handleValidationError } from '../../errors/handleValidationError';
+import { handleZodError } from '../../errors/handleZodError';
 import { ErrorMessage } from '../../interfaces/error';
 import { errorLogger } from '../../shared/logger';
-import { ZodError } from 'zod';
-import { handleZodError } from '../../errors/handleZodError';
-import { handleCastError } from '../../errors/handleCastError';
 
 export type IGlobalErrorResponse = {
   success: false;
@@ -16,12 +16,8 @@ export type IGlobalErrorResponse = {
   stack?: string | undefined;
 };
 
-export const globalErrorHandler: ErrorRequestHandler = (
-  error,
-  req,
-  res,
-  next
-) => {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export const globalErrorHandler: ErrorRequestHandler = (error, req, res) => {
   // res.status(400).json({ err });
   if (config.env === 'development') {
     console.log('💔 global error handler ~ ', error);
@@ -64,6 +60,4 @@ export const globalErrorHandler: ErrorRequestHandler = (
   };
 
   res.status(statusCode).json(responseData);
-
-  // next();
 };

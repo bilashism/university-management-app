@@ -1,5 +1,5 @@
 import cors from 'cors';
-import express, { Application, NextFunction, Request, Response } from 'express';
+import express, { Application, Request, Response } from 'express';
 import httpStatus from 'http-status';
 import {
   IGlobalErrorResponse,
@@ -21,7 +21,7 @@ app.use(`${config.API_PREFIX}`, appRouter);
 app.use(globalErrorHandler);
 
 // not found routes handler
-app.use((req: Request, res: Response, next: NextFunction) => {
+app.use((req: Request, res: Response) => {
   const notFoundResponseData: IGlobalErrorResponse = {
     success: false,
     message: 'The requested route was not found',
@@ -34,7 +34,6 @@ app.use((req: Request, res: Response, next: NextFunction) => {
     stack: undefined,
   };
   res.status(httpStatus.NOT_FOUND).json(notFoundResponseData);
-  // next();
 });
 
 export default app;
