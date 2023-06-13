@@ -1,3 +1,4 @@
+import { academicFacultyRouter } from './../modules/academicFaculty/academicFaculty.route';
 import express, { Router } from 'express';
 import { academicSemesterRouter } from '../modules/academicSemester/academicSemester.route';
 import { userRouter } from '../modules/user/user.route';
@@ -17,6 +18,10 @@ const ROUTES: IRoute[] = [
   {
     path: '/academic-semester',
     router: academicSemesterRouter,
+  },
+  {
+    path: '/academic-faculty',
+    router: academicFacultyRouter,
   },
 ];
 
