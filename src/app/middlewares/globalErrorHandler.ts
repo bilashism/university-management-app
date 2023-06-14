@@ -17,7 +17,12 @@ export type IGlobalErrorResponse = {
 };
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const globalErrorHandler: ErrorRequestHandler = (error, req, res) => {
+export const globalErrorHandler: ErrorRequestHandler = (
+  error,
+  req,
+  res,
+  next
+) => {
   // res.status(400).json({ err });
   if (config.env === 'development') {
     console.log('💔 global error handler ~ ', error);
@@ -33,13 +38,13 @@ export const globalErrorHandler: ErrorRequestHandler = (error, req, res) => {
     statusCode = simplifiedError.statusCode;
     message = simplifiedError.message;
     errorMessages = simplifiedError.errorMessages;
-  } else if (error instanceof ZodError) {
-    const simplifiedError = handleZodError(error);
+  } else if (error?.name === 'CastError') {
+    const simplifiedError = handleCastError(error);
     statusCode = simplifiedError.statusCode;
     message = simplifiedError.message;
     errorMessages = simplifiedError.errorMessages;
-  } else if (error?.name === 'CastError') {
-    const simplifiedError = handleCastError(error);
+  } else if (error instanceof ZodError) {
+    const simplifiedError = handleZodError(error);
     statusCode = simplifiedError.statusCode;
     message = simplifiedError.message;
     errorMessages = simplifiedError.errorMessages;
