@@ -6,13 +6,16 @@
   "description": "",
   "main": "src/server.ts",
   "scripts": {
-    "start": "ts-node-dev --respawn --transpile-only src/server.ts",
+    "start": "node dist/server.js",
+    "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
     "lint:check": "eslint --ignore-path .eslintignore --ext .js,.ts .",
     "lint:fix": "eslint . --fix",
     "prettier:check": "prettier --ignore-path .gitignore --write \"**/*.+(js|ts|json)\"",
     "prettier:fix": "prettier --write .",
     "lint-prettier": "pnpm run lint:check && pnpm run prettier:check",
     "prepare": "husky install",
+    "build": "tsc",
+    "deploy:vercel": "pnpm run build && vercel --prod",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Md. Taifuzzaman Bilash <bilashism@gmail.com>",
