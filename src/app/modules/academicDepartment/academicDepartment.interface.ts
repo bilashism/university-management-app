@@ -3,7 +3,7 @@ import { IAcademicFaculty } from '../academicFaculty/academicFaculty.interface';
 
 export type IAcademicDepartment = {
   title: string;
-  academicFaculty: Types.ObjectId | IAcademicFaculty;
+  academicFaculty?: Types.ObjectId | IAcademicFaculty;
 };
 
 export type AcademicDepartmentModel = Model<

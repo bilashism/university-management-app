@@ -2,7 +2,10 @@ import { SortOrder } from 'mongoose';
 import { paginationHelper } from '../../../helpers/paginationHelper';
 import { IGenericResponse } from '../../../interfaces/common';
 import { IPaginationOptions } from '../../../interfaces/pagination';
-import { academicDepartmentSearchableFields } from './academicDepartment.constant';
+import {
+  academicDepartmentSearchableFields,
+  academicDepartmentTitlePrefix,
+} from './academicDepartment.constant';
 import {
   IAcademicDepartment,
   IAcademicDepartmentFilters,
@@ -67,7 +70,11 @@ const getAllDepartments = async (
 const createDepartment = async (
   payload: IAcademicDepartment
 ): Promise<IAcademicDepartment | null> => {
-  const result = (await AcademicDepartment.create(payload)).populate(
+  const prefixedPayload: IAcademicDepartment = {
+    title: `${academicDepartmentTitlePrefix} ${payload.title}`,
+    academicFaculty: payload.academicFaculty,
+  };
+  const result = (await AcademicDepartment.create(prefixedPayload)).populate(
     'academicFaculty'
   );
   return result;
@@ -86,9 +93,13 @@ const updateDepartment = async (
   id: string,
   payload: Partial<IAcademicDepartment>
 ): Promise<IAcademicDepartment | null> => {
+  const prefixedPayload: IAcademicDepartment = {
+    title: `${academicDepartmentTitlePrefix} ${payload.title}`,
+    academicFaculty: payload.academicFaculty,
+  };
   const result = await AcademicDepartment.findOneAndUpdate(
     { _id: id },
-    payload,
+    prefixedPayload,
     {
       new: true,
     }
