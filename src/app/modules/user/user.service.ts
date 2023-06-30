@@ -1,8 +1,11 @@
+import httpStatus from 'http-status';
+import mongoose from 'mongoose';
 import config from '../../../config/index';
 import { ENUM_USER_ROLES } from '../../../enums/user';
 import ApiError from '../../../errors/ApiError';
 import { AcademicSemester } from '../academicSemester/academicSemester.model';
 import { IStudent } from '../student/student.interface';
+import { Student } from '../student/student.model';
 import { IUser } from './user.interface';
 import { User } from './user.model';
 import { generateStudentId } from './user.utils';
@@ -26,17 +29,52 @@ const createStudent = async (
   // set role to student
   user.role = ENUM_USER_ROLES.STUDENT;
 
-  // auto generated incremental id
   const semester = await AcademicSemester.findById(student.academicSemester);
-  const id = (await generateStudentId(semester)) as string;
-  user.id = id;
+  let newStudentAllData = null;
+  // auto generated incremental id
+  const session = await mongoose.startSession();
+  try {
+    session.startTransaction();
+    const id = (await generateStudentId(semester)) as string;
+    user.id = id;
+    student.id = id;
+    const newStudent = await Student.create([student], { session });
 
-  const createdUser = await User.create(user);
+    if (!newStudent.length) {
+      throw new ApiError(
+        httpStatus.INTERNAL_SERVER_ERROR,
+        'Student not created'
+      );
+    }
+    newStudentAllData = newStudent[0];
+    user.student = newStudent[0]._id;
+    const newUser = await User.create([user], { session });
+    if (!newUser.length) {
+      throw new ApiError(httpStatus.INTERNAL_SERVER_ERROR, 'User not created');
+    }
 
-  if (!createStudent) {
-    throw new ApiError(500, 'Failed to create user!');
+    await session.commitTransaction();
+  } catch (error) {
+    await session.abortTransaction();
+    throw error;
+  } finally {
+    session.endSession();
   }
-  return createdUser;
+
+  if (newStudentAllData) {
+    newStudentAllData = await User.findOne({
+      id: newStudentAllData.id,
+    }).populate({
+      path: 'student',
+      populate: [
+        { path: 'academicFaculty' },
+        { path: 'academicDepartment' },
+        { path: 'academicSemester' },
+      ],
+    });
+  }
+
+  return newStudentAllData;
 };
 
 export const userService = {

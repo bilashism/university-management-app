@@ -5,8 +5,6 @@ import {
   IGlobalErrorResponse,
   globalErrorHandler,
 } from './app/middlewares/globalErrorHandler';
-import { IAcademicSemester } from './app/modules/academicSemester/academicSemester.interface';
-import { generateFacultyId } from './app/modules/user/user.utils';
 import { appRouter } from './app/routes';
 import config from './config';
 const app: Application = express();
@@ -19,15 +17,6 @@ app.use(express.urlencoded({ extended: true }));
 // Application routes
 app.use(`${config.API_PREFIX}`, appRouter);
 
-const acaSem: Partial<IAcademicSemester> = {
-  code: '01',
-  year: '2020',
-};
-const testId = async () => {
-  const test = await generateFacultyId();
-  console.log(test);
-};
-testId();
 // global error handler (must come after all routes middleware)
 app.use(globalErrorHandler);
 
