@@ -1,8 +1,9 @@
 import config from '../../../config/index';
 import ApiError from '../../../errors/ApiError';
+import { IAcademicSemester } from '../academicSemester/academicSemester.interface';
 import { IUser } from './user.interface';
 import { User } from './user.model';
-import { generateUserId } from './user.utils';
+import { generateStudentId } from './user.utils';
 
 /**
  * This function creates a new user with an auto-generated ID and default password, and returns the
@@ -13,7 +14,11 @@ import { generateUserId } from './user.utils';
  */
 const createUser = async (user: IUser): Promise<IUser | null> => {
   // auto generated incremental id
-  const id = await generateUserId();
+  const semester: Partial<IAcademicSemester> = {
+    code: '01',
+    year: '2025',
+  };
+  const id = (await generateStudentId(semester)) as string;
   user.id = id;
   // default password
   if (!user.password) {

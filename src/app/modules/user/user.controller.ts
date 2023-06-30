@@ -16,7 +16,7 @@ import { userService } from './user.service';
  * function in the chain.
  */
 const createUser = catchAsync(async (req: Request, res: Response) => {
-  const { user } = req.body;
+  const user = req.body;
   const result = await userService.createUser(user);
 
   sendResponse(res, {

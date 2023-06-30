@@ -3,5 +3,9 @@
     "source.fixAll.eslint": true,
     "source.organizeImports": true
   },
-  "cSpell.words": ["middlewares", "Parens"]
+  "cSpell.words": [
+    "middlewares",
+    "Parens",
+    "virtuals"
+  ]
 }
