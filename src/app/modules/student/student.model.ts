@@ -1,7 +1,8 @@
 import { Schema, model } from 'mongoose';
+import { bloodGroup, gender } from './student.constant';
 import { IStudent, StudentModel } from './student.interface';
 
-export const studentSchema = new Schema(
+export const StudentSchema = new Schema<IStudent, StudentModel>(
   {
     id: {
       type: String,
@@ -14,48 +15,49 @@ export const studentSchema = new Schema(
           type: String,
           required: true,
         },
-        middleName: {
-          type: String,
-        },
         lastName: {
           type: String,
           required: true,
         },
+        middleName: {
+          type: String,
+          required: false,
+        },
       },
+      required: true,
+    },
+    gender: {
+      type: String,
+      enum: gender,
     },
     dateOfBirth: {
       type: String,
     },
-    gender: {
-      type: String,
-      required: true,
-      enum: ['male', 'female'],
-    },
-    bloodGroup: {
-      type: String,
-      enum: ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'],
-    },
     email: {
       type: String,
-      required: true,
       unique: true,
+      required: true,
     },
     contactNo: {
       type: String,
-      required: true,
       unique: true,
+      required: true,
     },
     emergencyContactNo: {
       type: String,
       required: true,
     },
-    presentAddress: {
-      required: true,
+    bloodGroup: {
       type: String,
+      enum: bloodGroup,
+    },
+    presentAddress: {
+      type: String,
+      required: true,
     },
     permanentAddress: {
-      required: true,
       type: String,
+      required: true,
     },
     guardian: {
       required: true,
@@ -85,48 +87,58 @@ export const studentSchema = new Schema(
           required: true,
         },
         address: {
-          required: true,
           type: String,
+          required: true,
         },
       },
     },
     localGuardian: {
       required: true,
-      name: {
-        type: String,
-        required: true,
+      type: {
+        name: {
+          type: String,
+          required: true,
+        },
+        occupation: {
+          type: String,
+          required: true,
+        },
+        contactNo: {
+          type: String,
+          required: true,
+        },
+        address: {
+          type: String,
+          required: true,
+        },
       },
-      occupation: {
-        type: String,
-        required: true,
-      },
-      contactNo: {
-        type: String,
-        required: true,
-      },
-      address: {
-        type: String,
-        required: true,
-      },
-    },
-    profileImage: { type: String, required: true },
-    academicDepartment: {
-      type: Schema.Types.ObjectId,
-      required: true,
-      ref: 'AcademicDepartment',
     },
     academicFaculty: {
       type: Schema.Types.ObjectId,
-      required: true,
       ref: 'AcademicFaculty',
+      required: true,
+    },
+    academicDepartment: {
+      type: Schema.Types.ObjectId,
+      ref: 'AcademicDepartment',
+      required: true,
     },
     academicSemester: {
-      type: Schema.Types.ObjectId,
-      required: true,
+      type: Schema.Types.ObjectId, // academicSemester --> _id
       ref: 'AcademicSemester',
+      required: true,
+    },
+    profileImage: {
+      type: String,
+      // required: true,
     },
   },
-  { timestamps: true, toJSON: { virtuals: true } }
+  {
+    timestamps: true,
+    toJSON: {
+      virtuals: true,
+    },
+  }
 );
 
-export const Student = model<IStudent>('Student', studentSchema);
+export const Student = model<IStudent, StudentModel>('Student', StudentSchema);

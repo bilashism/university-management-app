@@ -15,9 +15,9 @@ import { userService } from './user.service';
  * middleware function. It passes the error to the next middleware function or error handler middleware
  * function in the chain.
  */
-const createUser = catchAsync(async (req: Request, res: Response) => {
-  const user = req.body;
-  const result = await userService.createUser(user);
+const createStudent = catchAsync(async (req: Request, res: Response) => {
+  const { student, ...userData } = req.body;
+  const result = await userService.createStudent(student, userData);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
@@ -28,5 +28,5 @@ const createUser = catchAsync(async (req: Request, res: Response) => {
 });
 
 export const userController = {
-  createUser,
+  createStudent,
 };

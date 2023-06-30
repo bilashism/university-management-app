@@ -28,12 +28,14 @@ export const findLastStudentId = async (): Promise<string | undefined> => {
  * the `findLastUserId` function), incrementing it by 1, and padding it with leading zeros to ensure it
  * is 5 digits long.
  */
-export const generateStudentId = async (sem: Partial<IAcademicSemester>) => {
+export const generateStudentId = async (
+  sem: Partial<IAcademicSemester | null>
+) => {
   const currentId =
     (await findLastStudentId()) || (0).toString().padStart(5, '0'); //00000
   //increment by 1
   let incrementedId = (parseInt(currentId) + 1).toString().padStart(5, '0');
-  if (!sem.year || !sem.code) return;
+  if (!sem || !sem.year || !sem.code) return;
 
   incrementedId = `${sem.year.substring(2)}${sem.code}${incrementedId}`;
   return incrementedId;

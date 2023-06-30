@@ -1,6 +1,8 @@
 import config from '../../../config/index';
+import { ENUM_USER_ROLES } from '../../../enums/user';
 import ApiError from '../../../errors/ApiError';
-import { IAcademicSemester } from '../academicSemester/academicSemester.interface';
+import { AcademicSemester } from '../academicSemester/academicSemester.model';
+import { IStudent } from '../student/student.interface';
 import { IUser } from './user.interface';
 import { User } from './user.model';
 import { generateStudentId } from './user.utils';
@@ -12,27 +14,31 @@ import { generateStudentId } from './user.utils';
  * about the user being created.
  * @returns The function `createUser` returns a Promise that resolves to an `IUser` object or `null`.
  */
-const createUser = async (user: IUser): Promise<IUser | null> => {
-  // auto generated incremental id
-  const semester: Partial<IAcademicSemester> = {
-    code: '01',
-    year: '2025',
-  };
-  const id = (await generateStudentId(semester)) as string;
-  user.id = id;
+const createStudent = async (
+  student: IStudent,
+  user: IUser
+): Promise<IUser | null> => {
   // default password
   if (!user.password) {
-    user.password = config.default_user_pass as string;
+    user.password = config.default_student_pass as string;
   }
+
+  // set role to student
+  user.role = ENUM_USER_ROLES.STUDENT;
+
+  // auto generated incremental id
+  const semester = await AcademicSemester.findById(student.academicSemester);
+  const id = (await generateStudentId(semester)) as string;
+  user.id = id;
 
   const createdUser = await User.create(user);
 
-  if (!createUser) {
+  if (!createStudent) {
     throw new ApiError(500, 'Failed to create user!');
   }
   return createdUser;
 };
 
 export const userService = {
-  createUser,
+  createStudent,
 };
