@@ -1,9 +1,12 @@
 import express, { Router } from 'express';
 import { academicDepartmentRouter } from '../modules/academicDepartment/academicDepartment.route';
 import { academicSemesterRouter } from '../modules/academicSemester/academicSemester.route';
-import { userRouter } from '../modules/user/user.route';
-import { academicFacultyRouter } from './../modules/academicFaculty/academicFaculty.route';
+import { AdminRoutes } from '../modules/admin/admin.route';
+import { FacultyRoutes } from '../modules/faculty/faculty.route';
+import { ManagementDepartmentRoutes } from '../modules/managementDepartment/managementDepartment.route';
 import { studentRouter } from '../modules/student/student.route';
+import { UserRoutes } from '../modules/user/user.route';
+import { academicFacultyRouter } from './../modules/academicFaculty/academicFaculty.route';
 
 export const appRouter: Router = express.Router();
 
@@ -15,11 +18,23 @@ type IRoute = {
 const ROUTES: IRoute[] = [
   {
     path: '/user',
-    router: userRouter,
+    router: UserRoutes,
   },
   {
     path: '/student',
     router: studentRouter,
+  },
+  {
+    path: '/management-departments',
+    router: ManagementDepartmentRoutes,
+  },
+  {
+    path: '/faculties',
+    router: FacultyRoutes,
+  },
+  {
+    path: '/admins',
+    router: AdminRoutes,
   },
   {
     path: '/academic-semester',

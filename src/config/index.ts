@@ -6,9 +6,11 @@ dotenv.config({ path: path.join(process.cwd(), '.env') });
 const API_PREFIX = '/api/v1';
 
 export default {
-  env: process.env.NODE_ENV,
-  port: Number(process.env.PORT),
+  ENV: process.env.NODE_ENV,
+  PORT: Number(process.env.PORT),
   API_PREFIX,
-  database_url: process.env.DATABASE_URL,
-  default_student_pass: process.env.DEFAULT_STUDENT_PASS,
+  DATABASE_URL: process.env.DATABASE_URL,
+  DEFAULT_STUDENT_PASS: process.env.DEFAULT_STUDENT_PASS,
+  DEFAULT_FACULTY_PASS: process.env.DEFAULT_FACULTY_PASS,
+  DEFAULT_ADMIN_PASS: process.env.DEFAULT_ADMIN_PASS,
 };

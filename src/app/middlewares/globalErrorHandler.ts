@@ -24,7 +24,7 @@ export const globalErrorHandler: ErrorRequestHandler = (
   next
 ) => {
   // res.status(400).json({ err });
-  if (config.env === 'development') {
+  if (config.ENV === 'development') {
     console.log('💔 global error handler ~ ', error);
   } else {
     errorLogger.error('💔 global error handler ~ ', error);
@@ -61,7 +61,7 @@ export const globalErrorHandler: ErrorRequestHandler = (
     success: false,
     message,
     errorMessages,
-    stack: config.env !== 'production' ? error?.stack : undefined,
+    stack: config.ENV !== 'production' ? error?.stack : undefined,
   };
 
   res.status(statusCode).json(responseData);

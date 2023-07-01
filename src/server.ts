@@ -1,9 +1,9 @@
 /* eslint-disable no-console */
+import { Server } from 'http';
 import mongoose from 'mongoose';
 import app from './app';
 import config from './config/index';
 import { errorLogger, infoLogger } from './shared/logger';
-import { Server } from 'http';
 
 process.on('uncaughtException', error => {
   errorLogger.error(error);
@@ -14,10 +14,10 @@ let server: Server;
 
 async function bootstrap() {
   try {
-    await mongoose.connect(config.database_url as string);
+    await mongoose.connect(config.DATABASE_URL as string);
     infoLogger.info(`🛢 Database is connected successfully`);
 
-    server = app.listen(config.port, () => {
+    server = app.listen(config.PORT, () => {
       const host = server.address();
       const protocol = 'http';
       let address = '';
@@ -26,7 +26,7 @@ async function bootstrap() {
       }
 
       infoLogger.info(
-        `🌐 Server is running at: ${protocol}://${address}:${config.port}`
+        `🌐 Server is running at: ${protocol}://${address}:${config.PORT}`
       );
     });
   } catch (err) {
