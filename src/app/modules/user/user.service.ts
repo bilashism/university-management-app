@@ -17,7 +17,7 @@ import {
   generateFacultyId,
   generateStudentId,
 } from './user.utils';
-
+import bcrypt from 'bcrypt';
 const createStudent = async (
   student: IStudent,
   user: IUser
@@ -97,6 +97,11 @@ const createFaculty = async (
   if (!user.password) {
     user.password = config.DEFAULT_FACULTY_PASS as string;
   }
+  // hash password
+  user.password = await bcrypt.hash(
+    user.password,
+    Number(config.BCRYPT_SALT_ROUNDS)
+  );
   // set role
   user.role = 'faculty';
 
