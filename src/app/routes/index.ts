@@ -7,6 +7,7 @@ import { ManagementDepartmentRoutes } from '../modules/managementDepartment/mana
 import { studentRouter } from '../modules/student/student.route';
 import { UserRoutes } from '../modules/user/user.route';
 import { academicFacultyRouter } from './../modules/academicFaculty/academicFaculty.route';
+import { authRouter } from '../modules/auth/auth.route';
 
 export const appRouter: Router = express.Router();
 
@@ -47,6 +48,10 @@ const ROUTES: IRoute[] = [
   {
     path: '/academic-department',
     router: academicDepartmentRouter,
+  },
+  {
+    path: '/auth',
+    router: authRouter,
   },
 ];
 
