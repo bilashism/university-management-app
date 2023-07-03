@@ -7,10 +7,12 @@ import {
 } from './app/middlewares/globalErrorHandler';
 import { appRouter } from './app/routes';
 import config from './config';
+import cookieParser from 'cookie-parser';
 const app: Application = express();
 
 // standard middleware
 app.use(cors());
+app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
