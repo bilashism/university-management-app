@@ -2,12 +2,12 @@ import express, { Router } from 'express';
 import { academicDepartmentRouter } from '../modules/academicDepartment/academicDepartment.route';
 import { academicSemesterRouter } from '../modules/academicSemester/academicSemester.route';
 import { AdminRoutes } from '../modules/admin/admin.route';
+import { authRouter } from '../modules/auth/auth.route';
 import { FacultyRoutes } from '../modules/faculty/faculty.route';
 import { ManagementDepartmentRoutes } from '../modules/managementDepartment/managementDepartment.route';
 import { studentRouter } from '../modules/student/student.route';
 import { UserRoutes } from '../modules/user/user.route';
 import { academicFacultyRouter } from './../modules/academicFaculty/academicFaculty.route';
-import { authRouter } from '../modules/auth/auth.route';
 
 export const appRouter: Router = express.Router();
 

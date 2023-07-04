@@ -1,11 +1,10 @@
 import httpStatus, { NOT_FOUND, UNAUTHORIZED } from 'http-status';
-import ApiError from '../../../errors/ApiError';
-import { User } from '../user/user.model';
-import { ILoginUser, ILoginUserResponse } from './auth.interface';
 import { Secret } from 'jsonwebtoken';
 import config from '../../../config';
+import ApiError from '../../../errors/ApiError';
 import { jwtHelpers } from '../../../helpers/jwtHelper';
-import jwt from 'jsonwebtoken';
+import { User } from '../user/user.model';
+import { ILoginUser, ILoginUserResponse } from './auth.interface';
 
 const loginUser = async (payload: ILoginUser): Promise<ILoginUserResponse> => {
   const { id, password } = payload;
