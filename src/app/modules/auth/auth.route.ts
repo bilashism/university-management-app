@@ -9,3 +9,8 @@ authRouter.post(
   validateRequest(authValidation.loginZodSchema),
   authController.loginUser
 );
+authRouter.post(
+  '/refresh-token',
+  validateRequest(authValidation.refreshTokenZodSchema),
+  authController.refreshToken
+);
