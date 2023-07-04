@@ -30,7 +30,7 @@ const ROUTES: IRoute[] = [
     router: ManagementDepartmentRoutes,
   },
   {
-    path: '/faculties',
+    path: '/faculty',
     router: FacultyRoutes,
   },
   {
