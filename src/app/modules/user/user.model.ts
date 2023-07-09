@@ -23,6 +23,9 @@ const userSchema = new Schema<IUser, UserModel>(
       type: Boolean,
       default: true,
     },
+    passwordChangedAt: {
+      type: Date,
+    },
     student: {
       type: Schema.Types.ObjectId,
       ref: 'Student',
@@ -82,6 +85,10 @@ userSchema.pre('save', async function (next) {
     this.password,
     Number(config.BCRYPT_SALT_ROUNDS)
   );
+
+  if (!this.needsPasswordChange) {
+    this.passwordChangedAt = new Date();
+  }
   next();
 });
 
