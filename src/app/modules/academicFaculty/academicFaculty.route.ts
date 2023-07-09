@@ -21,8 +21,7 @@ academicFacultyRouter.get(
   auth(
     ENUM_USER_ROLES.SUPER_ADMIN,
     ENUM_USER_ROLES.ADMIN,
-    ENUM_USER_ROLES.FACULTY,
-    ENUM_USER_ROLES.STUDENT
+    ENUM_USER_ROLES.FACULTY
   ),
 
   academicFacultyController.getSingleFaculty
@@ -32,8 +31,7 @@ academicFacultyRouter.get(
   auth(
     ENUM_USER_ROLES.SUPER_ADMIN,
     ENUM_USER_ROLES.ADMIN,
-    ENUM_USER_ROLES.FACULTY,
-    ENUM_USER_ROLES.STUDENT
+    ENUM_USER_ROLES.FACULTY
   ),
 
   academicFacultyController.getAllFaculties
